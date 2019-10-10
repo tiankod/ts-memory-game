@@ -58,7 +58,7 @@ class MemoryGame {
         }
     }
     /**
-     * the pack is the total number of cards before starting the game
+     * the deck is the total number of cards before starting the game
      */
     private createNewDeck(): void {
         this.deck = new Deck(this);
@@ -86,15 +86,15 @@ class MemoryGame {
         return header;
     }
     /**
-     * create dynamic body of UI : pack + carpet
+     * create dynamic body of UI : deck + carpet
      */
     private createGameTable(): HTMLElement {
         const section = document.createElement("section");
         section.className = "wrapper";
-        // pack
+        // deck
         this.aside = document.createElement("aside");
-        this.aside.className = "pack";
-        this.aside.id = "pack";
+        this.aside.className = "deck";
+        this.aside.id = "deck";
         // carpet
         this.carpet = document.createElement("article");
         this.carpet.className = "carpet";
@@ -129,9 +129,9 @@ class Deck {
         let color: CardColor;
 
         this.numberOfPair = Deck.MAX_PAIR;
-        // show le back of the pack
+        // show le back of the deck
         const img: HTMLImageElement = document.createElement("img");
-        img.className = "packImg";
+        img.className = "deckImg";
         img.src = "images/back.png";
         img.alt = "stock";
         this.cardImg.appendChild(img);
@@ -154,7 +154,7 @@ class Deck {
      */
     private onClick(): void {
         this.putCardsOnCarpet();
-        // suppress the back of pack card
+        // suppress the back of deck card
         while (this.cardImg.firstChild) {
             this.cardImg.removeChild(this.cardImg.firstChild);
         }

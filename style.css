@@ -28,7 +28,7 @@ header {
   grid-row: 2;
   background-color:darkblue; 
 }
-.pack { 
+.deck { 
   grid-column: 1;
   grid-row: 3;
   min-height: 80vh; 
@@ -41,7 +41,7 @@ header {
   align-items: center;
   justify-items: center;
 }
-.packImg { 
+.deckImg { 
   grid-row-start: 2; 
 }
 .carpet { 
