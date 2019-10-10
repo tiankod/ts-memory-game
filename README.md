@@ -20,3 +20,8 @@ A project to study Typescript for dev java
 1. install extension "Debugger for Chrome"
 1. check the contents of the launch.json file
 1. run debugger
+
+## Note
+
+* [Typescript intro](docs/typescript.md)
+* [Technical doc](docs/docTechnique.md)
