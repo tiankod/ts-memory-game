@@ -1,0 +1,16 @@
+{
+  "name": "memory-game",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "keywords": [],
+  "author": "Emmanuel Le Pévédic",
+  "license": "UNLICENSED",
+  "private": true,
+  "devDependencies": {
+    "tslint": "^5.20.0",
+    "nodemon": "^1.19.3",
+    "node": "^10.16.3",
+    "typescript": "^3.6.4"
+  }
+}
