@@ -10,9 +10,10 @@ A project to study Typescript for dev java
 ## Install and run
 
 1. install NodeJs & npm
-1. npm install
-1. tsc
-1. launch index.html in a browser
+1. git clone
+1. npm install / yarn
+1. npm run build-ts / yarn build-ts
+1. npm start / yarn start
 
 ## Debug the code
 

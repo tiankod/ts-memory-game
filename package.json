@@ -1,16 +1,24 @@
 {
   "name": "memory-game",
-  "version": "1.0.0",
-  "description": "",
-  "main": "main.js",
+  "version": "1.0.1",
+  "description": "Un petit projet Typsescript pour explorer TS et son environnement",
+  "main": "index.html",
+  "scripts": {
+    "server": "lite-server",
+    "start": "npm run server",
+    "build-ts": "tsc",
+    "watch-ts": "tsc -w"
+  },
   "keywords": [],
   "author": "Emmanuel Le Pévédic",
   "license": "UNLICENSED",
   "private": true,
   "devDependencies": {
-    "tslint": "^5.20.0",
-    "nodemon": "^1.19.3",
+    "lite-server": "^2.5.4",
     "node": "^10.16.3",
+    "nodemon": "^1.19.3",
+    "tslint": "^5.20.0",
     "typescript": "^3.6.4"
-  }
+  },
+  "repository": "git@github.com:manulep/memoryGame.git"
 }
