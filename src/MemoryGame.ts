@@ -15,10 +15,10 @@ type CardColor = "H" | "C";
 
 class MemoryGame {
 
-    private static DELAI: number = 1000;
+    private static TIME_LIMIT: number = 1000;
     public numberOfReturnCard: number;
     public aside: HTMLElement;
-    public carpet: HTMLElement;
+    public tableGame: HTMLElement;
     private deck: Deck;
     private lastReturnCard: Card;
 
@@ -30,9 +30,9 @@ class MemoryGame {
      */
      public start() {
         const header: HTMLElement = this.createHeader();
-        const gameTable: HTMLElement = this.createGameTable();
+        const roomGame: HTMLElement = this.createRoomGame();
         document.body.appendChild(header);
-        document.body.appendChild(gameTable);
+        document.body.appendChild(roomGame);
         this.createNewDeck();
     }
     /**
@@ -44,16 +44,16 @@ class MemoryGame {
             this.lastReturnCard = card;
         } else {
         // two return cards
-            // the cards are differents
+            // the cards are different
             if (card.value !== this.lastReturnCard.value) {
                 setTimeout(() => {
                     card.returnTheCard();
                     this.lastReturnCard.returnTheCard();
-                    this.lastReturnCard = null; } , MemoryGame.DELAI);
+                    this.lastReturnCard = null; } , MemoryGame.TIME_LIMIT);
             // the same cards
             } else {
                 setTimeout(() => {
-                    this.removeThePair(card); } , MemoryGame.DELAI);
+                    this.removeThePair(card); } , MemoryGame.TIME_LIMIT);
             }
         }
     }
@@ -86,21 +86,21 @@ class MemoryGame {
         return header;
     }
     /**
-     * create dynamic body of UI : deck + carpet
+     * create dynamic body of UI : deck + tableGame
      */
-    private createGameTable(): HTMLElement {
+    private createRoomGame(): HTMLElement {
         const section = document.createElement("section");
         section.className = "wrapper";
         // deck
         this.aside = document.createElement("aside");
         this.aside.className = "deck";
         this.aside.id = "deck";
-        // carpet
-        this.carpet = document.createElement("article");
-        this.carpet.className = "carpet";
-        this.carpet.id = "carpet";
+        // tableGame
+        this.tableGame = document.createElement("article");
+        this.tableGame.className = "tableGame";
+        this.tableGame.id = "tableGame";
         section.appendChild(this.aside);
-        section.appendChild(this.carpet);
+        section.appendChild(this.tableGame);
         return section;
     }
 }
@@ -113,12 +113,12 @@ class Deck {
     public numberOfPair: number;
     private cardGame: MemoryGame;
     private cardImg: HTMLElement;
-    private carpet: HTMLElement;
+    private tableGame: HTMLElement;
 
     constructor(cardGame: MemoryGame) {
         this.cardGame = cardGame;
         this.cardImg = this.cardGame.aside;
-        this.carpet = this.cardGame.carpet;
+        this.tableGame = this.cardGame.tableGame;
         this.cardImg.addEventListener("click", () => {this.onClick(); }, false); // Arrow function
     }
     /**
@@ -153,7 +153,7 @@ class Deck {
      * begin of the round
      */
     private onClick(): void {
-        this.putCardsOnCarpet();
+        this.putCardsOnTableGame();
         // suppress the back of deck card
         while (this.cardImg.firstChild) {
             this.cardImg.removeChild(this.cardImg.firstChild);
@@ -161,13 +161,13 @@ class Deck {
     }
 
     /**
-     * put the cards in the carpet
+     * put the cards on the tableGame
      */
-    private putCardsOnCarpet(): void {
+    private putCardsOnTableGame(): void {
         // random shuffle
         this.cards.sort(() => 0.5 - Math.random());
-        // put all cards on the carpet - for each with arrow function
-        this.cards.forEach((c) => this.carpet.appendChild(c.div));
+        // put all cards on the tableGame - for each with arrow function
+        this.cards.forEach((c) => this.tableGame.appendChild(c.div));
     }
 }
 

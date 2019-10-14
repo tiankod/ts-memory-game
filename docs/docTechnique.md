@@ -25,7 +25,7 @@ Dans le fichier Typescript, lancement du traitement par un window.onload
 
 ```Typescript
 window.onload = () => {
-    const game: Game = new Game();
+    const game: MemoryGame = new MemoryGame();
     game.start();
 }
 ```
@@ -34,7 +34,7 @@ window.onload = () => {
 
 Découpage du code en 3 classes :
 
-* Game : c'est le jeu
+* MemoryGame : c'est le jeu
 * Deck : c'est le paquet (l'ensemble des cartes)
 * Card : c'est une carte
 
@@ -70,7 +70,7 @@ Cette classe gère l'ensemble des cartes (Card).
 Elle crée toutes les cartes dans un tableau (`initCards`) et affiche le paquet sur l'écran. Le clic est géré dans le constructeur.
 Lors du clic, toutes les cartes sont mélangées et disposées sur le tapis (DOM).
 
-## Game
+## MemoryGame
 
 C'est la classe qui gère le jeu. Elle contient un paquet (Deck).
 Cette classe s'occupe de la mise en page (zonage) et des règles du jeu.  
@@ -114,7 +114,6 @@ Nous avons une méthode qui indique le comportement lors du clic
     private onClick(): void {
         if (!this.isReturn && this.cardGame.numberOfReturnCard < 2) {
             this.returnTheCard();
-            this.cardGame.incrementeScore();
             this.cardGame.controlThePair(this);
         }
     }
@@ -133,6 +132,6 @@ Il existe une solution en conservant le `this` dans une autre variable, ou en fa
 Mais le moyen le plus simple c'est l'arrow function.
 
 ```typescript
-    //arrow function résout le mode asynchrone 
+    //arrow function résout le mode asynchrone
     this.image.addEventListener("click", () => {this.onClick(); }, false);
 ```
