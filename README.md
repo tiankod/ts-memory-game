@@ -15,6 +15,11 @@ A project to study Typescript for dev java
 1. npm run build-ts / yarn build-ts
 1. npm start / yarn start
 
+## Compil the code on save
+
+* with cmd : tsc --watch
+* or with vscode : ctrl+shift+b => tsc: watch
+
 ## Debug the code
 
 1. use VS Code
