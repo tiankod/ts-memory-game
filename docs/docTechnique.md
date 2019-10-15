@@ -2,6 +2,44 @@
 
 Ce document explique les choix de développement de cette solution.
 
+## environnement de travail
+
+### Éditeur de code
+
+* VS Code
+* extension écriture Typescript
+  * Javascript (ES6) code snippets
+  * eslint
+  * Code Spell Checker
+  * markdownlint
+* extensions tests unitaires
+  * Jest
+  * Jest Snippets
+* extensions exécution
+  * Debugger for Chrome
+  * Live Server
+  * view-in-browser
+* paramétrage de VSC
+  * settings.json
+  
+    ```json
+    "editor.snippetSuggestions": "top"
+    ```
+
+### Exécution des tests unitaires
+
+* jest
+* Ajout d'un script dans package.json
+
+    ```json
+    "test": "jest --watch"
+    ```
+
+* test avec VSC
+* test en cli
+  * cmd
+  * yarn test
+
 ## Tout est en dynamique
 
 Le but de cet exercice est de s'habituer au langage Typescript. Donc tout est fait pour minimisé le HTML et le CSS.  
