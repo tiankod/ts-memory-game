@@ -11,5 +11,6 @@
         "transpilateur",
         "transpiler",
         "transpilé"
-    ]
+    ],
+    "editor.snippetSuggestions": "top"
 }
