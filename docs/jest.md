@@ -1,5 +1,19 @@
 # Les tests unitaires avec Jest
 
+## Pourquoi jest
+
+Jest est un framework moderne, plus récent que Jasmine ou Mocha. Il est intégré dans ReactJS et VueJS, et il est possible de l'intégrer dans Angular.  
+Et surtout, jest permet de mocker facilement et de simuler des événements DOM.
+
+## Les modules
+
+Les tests sont écrits dans un fichier séparé. Pour cela, il faut importer le code à tester dans le fichier de tests. Il faut donc intégrer les modules.  
+Ceci signifie que vous allez ajouter le mot clef `export` dans vos sources.  
+La gestion des modules en js est problématique car non normée.
+Se référer au document [typescript](./typescript.md) pour comprendre la gestion des modules dans une application Typescript compilée en Typescript et destinée à être exécutée sur un browser.  
+Pour notre application, nous utilisons le transpileur Typescript. Or la doc de jest recommande Babel ou Webpack.
+Ceci fonctionne néanmoins, mais avec une alerte lors de l'exécution des tests unitaires.
+
 ## Installation
 
 ### Installation des paquets
@@ -8,7 +22,9 @@
 yarn add -D jest ts-jest @types/jest
 ```
 
-### Fichier de configuration
+### Fichiers de configuration
+
+#### jest.config.js
 
 cmd
 
@@ -29,7 +45,18 @@ Modification de jest.config.js
   },
 ```
 
-### Ajout d'un script dans package.json
+#### tsconfig.json
+
+Ajout dans exclude des fichiers de tests
+
+```json
+ "exclude": [
+        ...
+        "**/*.spec.ts",
+    ]
+```
+
+#### Ajout d'un script dans package.json
 
 ```json
   "scripts": {
@@ -40,7 +67,8 @@ Modification de jest.config.js
 
 ### Tester installation de Jest
 
-Créer 2 fichiers de tests sous src sum.ts et sum.spec.ts.
+* Création d'un dossier test qui contiendra tous les tests unitaires.
+* Créer 2 fichiers de tests sous test sum.ts et sum.spec.ts.
 
 sum.ts
 
@@ -91,5 +119,14 @@ Ran all test suites related to changed files.
 
 ```
 
-__Attention !__ ts-jest vérifie les tests unitaires, mais ne compile pas les ts en js.  
-En effet, vous pouvez remarquerez l'absence de nouveaux fichiers .js dans le build.
+Vous n'obtenez pas ce résultat, revoyez la config.
+Le résultat est concluant, supprimer ces 2 fichiers
+
+## Création de tests unitaires
+
+* Les jeux de tests sont écrits dans des fichiers ts ayant pour extension `spec.ts` ou `.test.ts`. Vous les placez soit dans le dossier du source à tester, soit dans le dossier `__test__`.
+* La doc jest sur leur [site](https://jestjs.io/docs/en/getting-started)
+* des exemples
+  * tester un click avec [oc](https://openclassrooms.com/fr/courses/4664381-realisez-une-application-web-avec-react-js/4664926-simulez-des-evenements)
+  * des exemples complet avec [zetcode](http://zetcode.com/javascript/jest/)
+  * tuto [Grafikart](https://www.grafikart.fr/tutoriels/jest-test-framework-1202)
