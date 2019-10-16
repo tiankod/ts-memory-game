@@ -1,19 +1,14 @@
 /**
- * this solution use 3 class in the same file
+ * this solution use 3 dependant class in the same file
  * MemoryGame
  * Deck
  * Card
  */
 
-window.onload = () => {
-    const game: MemoryGame = new MemoryGame();
-    game.start();
-}
-
 // new type H or C for Heart and Clover
 type CardColor = "H" | "C";
 
-class MemoryGame {
+export class MemoryGame {
 
     private static TIME_LIMIT: number = 1000;
     public numberOfReturnCard: number;
@@ -106,7 +101,7 @@ class MemoryGame {
 }
 
 class Deck {
-    private static readonly MAX_PAIR: number = 8; // constant in class
+    public static readonly MAX_PAIR: number = 8; // constant in class
     private static readonly listColor: CardColor[] = ["H", "C"];
 
     public cards: Card[];
