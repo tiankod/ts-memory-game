@@ -14,7 +14,7 @@ export class MemoryGame {
     public numberOfReturnCard: number;
     public aside: HTMLElement;
     public tableGame: HTMLElement;
-    private deck: Deck;
+    public deck: Deck;
     private lastReturnCard: Card;
 
     constructor() {
@@ -55,7 +55,7 @@ export class MemoryGame {
     /**
      * the deck is the total number of cards before starting the game
      */
-    private createNewDeck(): void {
+    public createNewDeck(): void {
         this.deck = new Deck(this);
         this.deck.initCards();
     }
@@ -147,7 +147,7 @@ class Deck {
     /**
      * begin of the round
      */
-    private onClick(): void {
+    public onClick(): void {
         this.putCardsOnTableGame();
         // suppress the back of deck card
         while (this.cardImg.firstChild) {

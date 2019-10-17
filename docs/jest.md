@@ -3,7 +3,7 @@
 ## Pourquoi jest
 
 Jest est un framework moderne, plus récent que Jasmine ou Mocha. Il est intégré dans ReactJS et VueJS, et il est possible de l'intégrer dans Angular.  
-Et surtout, jest permet de mocker facilement et de simuler des événements DOM.
+Et surtout, jest permet de mocker facilement et de simuler des événements DOM (en collaboration avec Enzyme/vue-test-util).
 
 ## Les modules
 
@@ -130,3 +130,34 @@ Le résultat est concluant, supprimer ces 2 fichiers
   * tester un click avec [oc](https://openclassrooms.com/fr/courses/4664381-realisez-une-application-web-avec-react-js/4664926-simulez-des-evenements)
   * des exemples complet avec [zetcode](http://zetcode.com/javascript/jest/)
   * tuto [Grafikart](https://www.grafikart.fr/tutoriels/jest-test-framework-1202)
+
+## Bilan
+
+### Les plus
+
+* Jest a du potentiel
+* Facile à installer
+* Syntaxe ressemble beaucoup à Jasmine
+* Lecture facile des résultats de test
+* utilisation de JSDOM
+* gestion procedure asynchrone
+* code coverage (non implémenté ici).
+* se branche avec d'autres outils
+* doc conséquente
+* intégré à React, VueJS, possibilité pour Angular
+
+### Les moins
+
+* Demande de babel ou WebPack pour meilleur exploitation
+* Surtout basé autour de React (dont la doc)
+* Courbe d'apprentissage => temps à passer
+* Si POO avec encapsulation, obligation de rendre public certains éléments de la classe uniquement pour les tests.
+* Si on veut faire de vrais tests rapides, il faut passer par un fwk.
+
+### Les questions
+
+* la gestion des événements doit se faire avec Enzyme ?
+* feuille de styles => approfondir
+* Pas trop compris
+  * les mock
+  * jest.fn() à creuser
