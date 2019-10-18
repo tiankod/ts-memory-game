@@ -44,7 +44,7 @@ header {
 .deckImg { 
   grid-row-start: 2; 
 }
-.carpet { 
+.tableGame { 
   background: rgb(42, 133, 39);
   grid-column-start: 2; 
   grid-column-end: 6; 
