@@ -27,6 +27,11 @@ A project to study Typescript for dev java
 1. check the contents of the launch.json file
 1. run debugger
 
+## version
+
+* v1.0.0 a solution with dependant classes in the same source
+* v2.0.0 add jest Unit Test and Module
+
 ## Note
 
 * [Typescript intro](docs/typescript.md)
