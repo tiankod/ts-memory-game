@@ -59,6 +59,10 @@ export class Deck implements IDeck {
     private putCardsOnTableGame(): void {
         // random shuffle
         this.cards.sort(() => 0.5 - Math.random());
+        // clear the table game
+        while (this.tableGame.firstChild) {
+            this.tableGame.removeChild(this.tableGame.firstChild);
+        }
         // put all cards on the tableGame - for each with arrow function
         this.cards.forEach((c) => this.tableGame.appendChild(c.div));
     }
