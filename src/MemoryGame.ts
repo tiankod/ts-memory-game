@@ -16,14 +16,20 @@ export class MemoryGame {
     public tableGame: HTMLElement;
     public deck: Deck;
     private lastReturnCard: Card;
+    public score: number;
+    private scoreTxt: HTMLElement;
+    private highScoreTxt: HTMLElement;
+    private highScore: number;
 
     constructor() {
         this.numberOfReturnCard = 0;
+        this.score = 0;
+        this.highScore = Number.MAX_VALUE;
     }
     /**
      * begin of game
      */
-     public start() {
+    public start() {
         const header: HTMLElement = this.createHeader();
         const roomGame: HTMLElement = this.createRoomGame();
         document.body.appendChild(header);
@@ -38,17 +44,19 @@ export class MemoryGame {
         if ((this.lastReturnCard === undefined) || (this.lastReturnCard == null)) {
             this.lastReturnCard = card;
         } else {
-        // two return cards
+            // two return cards
             // the cards are different
             if (card.value !== this.lastReturnCard.value) {
                 setTimeout(() => {
                     card.returnTheCard();
                     this.lastReturnCard.returnTheCard();
-                    this.lastReturnCard = null; } , MemoryGame.TIME_LIMIT);
-            // the same cards
+                    this.lastReturnCard = null;
+                }, MemoryGame.TIME_LIMIT);
+                // the same cards
             } else {
                 setTimeout(() => {
-                    this.removeThePair(card); } , MemoryGame.TIME_LIMIT);
+                    this.removeThePair(card);
+                }, MemoryGame.TIME_LIMIT);
             }
         }
     }
@@ -58,16 +66,40 @@ export class MemoryGame {
     public createNewDeck(): void {
         this.deck = new Deck(this);
         this.deck.initCards();
+        this.score = -1;
+        this.incrementTheScore();
     }
     /**
-     * take off the same cards
+     * the score is the number of click
      */
+    public incrementTheScore(): void {
+        // show the score with a template literal
+        this.score++;
+        this.scoreTxt.innerHTML = `Score : ${this.score}`;
+    }
+    /**
+         * take off the same cards
+         */
     private removeThePair(card: Card): void {
         card.hideCard();
         this.lastReturnCard.hideCard();
         this.lastReturnCard = null;
         this.numberOfReturnCard = 0;
         this.deck.numberOfPair--;
+        if (this.deck.numberOfPair < 1) {
+            this.thisIsTheEndOfGame();
+        }
+    }
+    /**
+     * then end of the game
+     * you show the score and start a new round
+     */
+    private thisIsTheEndOfGame(): void {
+        if (this.highScore > this.score) {
+            this.highScore = this.score;
+            this.highScoreTxt.innerHTML = `High score : ${this.highScore}`;
+        }
+        this.createNewDeck();
     }
     /**
      * create dynamic header of UI
@@ -75,9 +107,18 @@ export class MemoryGame {
     private createHeader(): HTMLElement {
         const header: HTMLElement = document.createElement("header");
         const title1: HTMLElement = document.createElement("h1");
+        this.highScoreTxt = document.createElement("p");
+        this.scoreTxt = document.createElement("p");
         header.appendChild(title1);
+        header.appendChild(this.highScoreTxt);
+        header.appendChild(this.scoreTxt);
         title1.innerHTML = "Memory Game";
         title1.className = "title1";
+        this.highScoreTxt.className = "title2";
+        this.highScoreTxt.innerHTML = (this.highScore !== Number.MAX_VALUE)
+            ? `High score : ${this.highScore}`
+            : `High score : `;
+        this.scoreTxt.className = "title3";
         return header;
     }
     /**
@@ -114,7 +155,7 @@ class Deck {
         this.cardGame = cardGame;
         this.cardImg = this.cardGame.aside;
         this.tableGame = this.cardGame.tableGame;
-        this.cardImg.addEventListener("click", () => {this.onClick(); }, false); // Arrow function
+        this.cardImg.addEventListener("click", () => { this.onClick(); }, false); // Arrow function
     }
     /**
      * generate the card of game
@@ -135,7 +176,7 @@ class Deck {
         this.cards = new Array();
         // for all color - for each with for
         for (color of Deck.listColor) {
-            for (let value = 1; value <= Deck.MAX_PAIR; value++ ) {
+            for (let value = 1; value <= Deck.MAX_PAIR; value++) {
                 const card: Card = new Card(this.cardGame, color, value);
                 card.createImage(order);
                 this.cards[order] = card;
@@ -166,7 +207,7 @@ class Deck {
     }
 }
 
-class Card {
+export class Card {
     private static readonly BACK_IMAGE: string = "images/back.png";
 
     public div: HTMLDivElement;
@@ -194,7 +235,7 @@ class Card {
         this.image.alt = `card ${order}`;
         this.div.appendChild(this.image);
         // arrow function for click event (I love Arrow function)
-        this.image.addEventListener("click", () => {this.onClick(); }, false);
+        this.image.addEventListener("click", () => { this.onClick(); }, false);
     }
     /**
      * visual effect when a card is return
@@ -224,6 +265,7 @@ class Card {
     private onClick(): void {
         if (!this.isReturn && this.cardGame.numberOfReturnCard < 2) {
             this.returnTheCard();
+            this.cardGame.incrementTheScore();
             this.cardGame.controlThePair(this);
         }
     }
