@@ -4,6 +4,7 @@ import { IDeck } from "./IDeck";
 import { Deck } from "./Deck";
 import { IStorage } from "./IStorage";
 import { FactoryStorage } from "./FactoryStorage";
+import Debug from "./Debug";
 
 /**
  * this solution use 3 dependant class in the same file
@@ -33,6 +34,7 @@ export class MemoryGame implements IMemoryGame{
     /**
      * begin of game
      */
+    @Debug()
     public start() {
         const header: HTMLElement = this.createHeader();
         const roomGame: HTMLElement = this.createRoomGame();
@@ -43,6 +45,7 @@ export class MemoryGame implements IMemoryGame{
     /**
      * actions when a card is return
      */
+    @Debug()
     public controlThePair(card: ICard): void {
         // only one return card
         if ((this.lastReturnCard === undefined) || (this.lastReturnCard == null)) {
@@ -128,6 +131,7 @@ export class MemoryGame implements IMemoryGame{
     /**
      * create dynamic body of UI : deck + tableGame
      */
+    @Debug()
     private createRoomGame(): HTMLElement {
         const section = document.createElement("section");
         section.className = "wrapper";

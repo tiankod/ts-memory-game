@@ -1,6 +1,7 @@
 import { IMemoryGame } from "./IMemoryGame";
 import { CardColor } from "./CardColor";
 import { ICard } from "./ICard";
+import Debug from "./Debug";
 
 export class Card implements ICard{
     private static readonly BACK_IMAGE: string = "images/back.png";
@@ -19,7 +20,8 @@ export class Card implements ICard{
     /**
      * create image
      */
-    public createImage(order: number): void {
+    @Debug()
+     public createImage(order: number): void {
         order++;
         this.div = document.createElement("div");
         this.div.id = `card ${order}`;
@@ -56,6 +58,7 @@ export class Card implements ICard{
     /**
      * when you click on the card
      */
+    @Debug()
     private onClick(): void {
         if (!this.isReturn && this.cardGame.numberOfReturnCard < 2) {
             this.returnTheCard();
