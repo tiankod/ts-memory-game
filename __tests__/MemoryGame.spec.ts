@@ -1,8 +1,9 @@
 import { MemoryGame } from "../src/MemoryGame";
+import { IMemoryGame } from "../src/IMemoryGame";
 
 describe('init game', () => {
 
-    const game: MemoryGame = new MemoryGame();
+    const game: IMemoryGame = new MemoryGame();
     beforeAll(() => {
         game.start();
     })
