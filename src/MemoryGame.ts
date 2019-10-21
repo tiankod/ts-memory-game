@@ -2,6 +2,8 @@ import { IMemoryGame } from "./IMemoryGame";
 import { ICard } from "./ICard";
 import { IDeck } from "./IDeck";
 import { Deck } from "./Deck";
+import { IStorage } from "./IStorage";
+import { FactoryStorage } from "./FactoryStorage";
 
 /**
  * this solution use 3 dependant class in the same file
@@ -21,12 +23,12 @@ export class MemoryGame implements IMemoryGame{
     public score: number;
     private scoreTxt: HTMLElement;
     private highScoreTxt: HTMLElement;
-    private highScore: number;
+    private storage: IStorage;
 
     constructor() {
         this.numberOfReturnCard = 0;
         this.score = 0;
-        this.highScore = Number.MAX_VALUE;
+        this.storage = FactoryStorage.createStorage();
     }
     /**
      * begin of game
@@ -97,9 +99,9 @@ export class MemoryGame implements IMemoryGame{
      * you show the score and start a new round
      */
     private thisIsTheEndOfGame(): void {
-        if (this.highScore > this.score) {
-            this.highScore = this.score;
-            this.highScoreTxt.innerHTML = `High score : ${this.highScore}`;
+        if (this.storage.highScore > this.score) {
+            this.storage.highScore = this.score;
+            this.highScoreTxt.innerHTML = `High score : ${this.storage.highScore}`;
         }
         this.createNewDeck();
     }
@@ -117,8 +119,8 @@ export class MemoryGame implements IMemoryGame{
         title1.innerHTML = "Memory Game";
         title1.className = "title1";
         this.highScoreTxt.className = "title2";
-        this.highScoreTxt.innerHTML = (this.highScore !== Number.MAX_VALUE)
-            ? `High score : ${this.highScore}`
+        this.highScoreTxt.innerHTML = (this.storage.highScore !== Number.MAX_VALUE)
+            ? `High score : ${this.storage.highScore}`
             : `High score : `;
         this.scoreTxt.className = "title3";
         return header;
