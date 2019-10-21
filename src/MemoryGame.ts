@@ -1,3 +1,8 @@
+import { IMemoryGame } from "./IMemoryGame";
+import { ICard } from "./ICard";
+import { IDeck } from "./IDeck";
+import { Deck } from "./Deck";
+
 /**
  * this solution use 3 dependant class in the same file
  * MemoryGame
@@ -5,17 +10,14 @@
  * Card
  */
 
-// new type H or C for Heart and Clover
-type CardColor = "H" | "C";
-
-export class MemoryGame {
+export class MemoryGame implements IMemoryGame{
 
     private static TIME_LIMIT: number = 1000;
     public numberOfReturnCard: number;
     public aside: HTMLElement;
     public tableGame: HTMLElement;
-    public deck: Deck;
-    private lastReturnCard: Card;
+    public deck: IDeck;
+    private lastReturnCard: ICard;
     public score: number;
     private scoreTxt: HTMLElement;
     private highScoreTxt: HTMLElement;
@@ -39,7 +41,7 @@ export class MemoryGame {
     /**
      * actions when a card is return
      */
-    public controlThePair(card: Card): void {
+    public controlThePair(card: ICard): void {
         // only one return card
         if ((this.lastReturnCard === undefined) || (this.lastReturnCard == null)) {
             this.lastReturnCard = card;
@@ -80,7 +82,7 @@ export class MemoryGame {
     /**
          * take off the same cards
          */
-    private removeThePair(card: Card): void {
+    private removeThePair(card: ICard): void {
         card.hideCard();
         this.lastReturnCard.hideCard();
         this.lastReturnCard = null;
@@ -138,140 +140,5 @@ export class MemoryGame {
         section.appendChild(this.aside);
         section.appendChild(this.tableGame);
         return section;
-    }
-}
-
-class Deck {
-    public static readonly MAX_PAIR: number = 8; // constant in class
-    private static readonly listColor: CardColor[] = ["H", "C"];
-
-    public cards: Card[];
-    public numberOfPair: number;
-    private cardGame: MemoryGame;
-    private cardImg: HTMLElement;
-    private tableGame: HTMLElement;
-
-    constructor(cardGame: MemoryGame) {
-        this.cardGame = cardGame;
-        this.cardImg = this.cardGame.aside;
-        this.tableGame = this.cardGame.tableGame;
-        this.cardImg.addEventListener("click", () => { this.onClick(); }, false); // Arrow function
-    }
-    /**
-     * generate the card of game
-     */
-    public initCards(): void {
-        let order: number = 0;
-        let color: CardColor;
-
-        this.numberOfPair = Deck.MAX_PAIR;
-        // show le back of the deck
-        const img: HTMLImageElement = document.createElement("img");
-        img.className = "deckImg";
-        img.src = "images/back.png";
-        img.alt = "stock";
-        this.cardImg.appendChild(img);
-
-        // list of cards
-        this.cards = new Array();
-        // for all color - for each with for
-        for (color of Deck.listColor) {
-            for (let value = 1; value <= Deck.MAX_PAIR; value++) {
-                const card: Card = new Card(this.cardGame, color, value);
-                card.createImage(order);
-                this.cards[order] = card;
-                order++;
-            }
-        }
-    }
-
-    /**
-     * begin of the round
-     */
-    public onClick(): void {
-        this.putCardsOnTableGame();
-        // suppress the back of deck card
-        while (this.cardImg.firstChild) {
-            this.cardImg.removeChild(this.cardImg.firstChild);
-        }
-    }
-
-    /**
-     * put the cards on the tableGame
-     */
-    private putCardsOnTableGame(): void {
-        // random shuffle
-        this.cards.sort(() => 0.5 - Math.random());
-        // put all cards on the tableGame - for each with arrow function
-        this.cards.forEach((c) => this.tableGame.appendChild(c.div));
-    }
-}
-
-export class Card {
-    private static readonly BACK_IMAGE: string = "images/back.png";
-
-    public div: HTMLDivElement;
-    public image: HTMLImageElement;
-    public value: number;
-    private cardGame: MemoryGame;
-    private color: CardColor;
-    private isReturn: boolean;
-
-    constructor(cardGame: MemoryGame, color: CardColor, value: number) {
-        this.cardGame = cardGame;
-        this.color = color;
-        this.value = value;
-        this.isReturn = false;
-    }
-    /**
-     * create image
-     */
-    public createImage(order: number): void {
-        order++;
-        this.div = document.createElement("div");
-        this.div.id = `card ${order}`;
-        this.image = document.createElement("img");
-        this.image.src = Card.BACK_IMAGE;
-        this.image.alt = `card ${order}`;
-        this.div.appendChild(this.image);
-        // arrow function for click event (I love Arrow function)
-        this.image.addEventListener("click", () => { this.onClick(); }, false);
-    }
-    /**
-     * visual effect when a card is return
-     */
-    public returnTheCard(): void {
-        if (this.isReturn) {
-            this.image.src = Card.BACK_IMAGE;
-            this.isReturn = false;
-            this.cardGame.numberOfReturnCard--;
-        } else {
-            this.image.src = this.srcImage;
-            this.isReturn = true;
-            this.cardGame.numberOfReturnCard++;
-        }
-    }
-    /**
-     * take off a card
-     */
-    public hideCard(): void {
-        while (this.div.firstChild) {
-            this.div.removeChild(this.div.firstChild);
-        }
-    }
-    /**
-     * when you click on the card
-     */
-    private onClick(): void {
-        if (!this.isReturn && this.cardGame.numberOfReturnCard < 2) {
-            this.returnTheCard();
-            this.cardGame.incrementTheScore();
-            this.cardGame.controlThePair(this);
-        }
-    }
-
-    // this is a property (getter)
-    private get srcImage(): string {
-        return `images/${this.value}${this.color}.png`;
     }
 }
