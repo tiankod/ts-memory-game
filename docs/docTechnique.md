@@ -262,3 +262,124 @@ Appel de requirejs dans `index.html`. Vous remarquez `data-main` qui référence
   <script data-main="build/config" src="node_modules/requirejs/require.js"></script>
 </head>
 ```
+
+## Les interfaces
+
+Les interfaces ajoutent de l'agilité dans le code donc dans le refactoring.  
+
+### Implémentation
+
+#### Un exemple d'interface pour la classe Card
+
+```typescript
+/** Interface ICard.ts*/
+export interface ICard {
+    div: HTMLDivElement;
+    image: HTMLImageElement;
+    value: number;
+    createImage(order: number): void;
+    returnTheCard(): void;
+    hideCard(): void;
+}
+
+/** Classe Card.ts*/
+export class Card implements ICard {
+    public div: HTMLDivElement;
+    public image: HTMLImageElement;
+    public value: number;
+
+    public createImage(order: number): void {
+        ...
+    }
+    ...
+}
+
+/** appel dans MemoryGame.ts*/
+private removeThePair(card: ICard): void {
+   ...
+}
+
+/** Instanciation dans Deck.ts*/
+const card: ICard = new Card(this.cardGame, color, value);
+```
+
+#### Explications
+
+ICard ne contient comme code que les propriétés et le comportement de la classe, et en aucun cas le comment.  
+Le comment est écrit dans la classe.
+
+1. vous écrivez l'interface en décrivant les propriétés et les méthodes visibles de l'extérieur
+1. vous écrivez votre classe avec les propriétés et méthodes exigées par l'interface
+1. partout où vous appelez votre classe habituellement, vous mettez l'interface
+1. seule l'instanciation référence la classe et l'interface.
+
+### Refactoring
+
+#### Sans interface
+
+Sans interface, vous auriez créé une classe et écrit beaucoup d'appels à cette classe (Card). Vous avez 2 solutions :
+
+1. S'il y a peu de réécriture, vous modifiez la classe et donc conserver Card
+1. S'il y a une réécriture complète de la classe, vous devez créer une nouvelle classe (PlayCard par exemple).
+
+C'est ce second cas qui pose problème, car il demande des modifications dans tout votre code et donc amplifient les risques de régression.  
+C'est là qu'intervient l'interface.
+
+#### Avec interface
+
+Vous écrivez du nouveau code dans une nouvelle classe (PlayCard par exemple).
+Ceci permet de conserver Card le temps du dev et donc d'avoir une application livrable.
+Vous faites de nouveaux tests unitaires sur cette nouvelle classe.  
+Quand l'écriture de la classe est finie, vous faites le branchement de cette classe lors des instanciations (le new) et c'est tout.  
+Le risque de regression est diminué, il y a moins de conflits dans git.  
+
+### La Factory (ou sur les traces de l'Injection de dépendance (DI))
+
+Ici, nous ajoutons une petite fonctionnalité : stocker le meilleur score (le moins de cartes retournées).
+Lors du prochain lancement, on affichera ce score.  
+Pour cela nous sauvegardons le résultat dans le local storage.
+Or, le local storage n'est pas supporté par tous les browser.  
+Dans un premier, j'avais écrit du code dans une classe avec plein de tests.
+J'avais tort. C'est un cas de polymorphisme par interface.
+Il faut deux classes : une pour le local storage et une pour un stockage par défaut.
+Et donc une interface pour utiliser l'une ou l'autre.
+Reste le test pour connaître quelle classe à instancier. On ne le met pas dans la classe appelante.
+C'est une fonctionnalité technique (pas de métier).
+Cette classe dédiée, c'est une fabrique d'instance : une **Factory**.
+
+L'appel à la Factory se fait par cet appel.
+
+```typescript
+    let storage: IStorage;
+    storage = FactoryStorage.createStorage();
+```
+
+Je vous demande d'aller directement lire le code dans les fichiers suivants :
+
+* FactoryStorage.ts : c'est la factory
+* LocalStorage.ts : c'est stockage des infos dans le local storage.
+* MemoryStorage.ts : c'est un stockage en mémoire, donc pas de sauvegarde
+Vous vous sentez d'attaque pour créer un stockage dans un cookie ?
+
+## Le decorator
+
+Le decorator est une annotation. Il permet d'écrire des instructions de méta-langage. Derrière un decorator se cache une fonction.  
+C'est ce qui a été fait ici avec le decorator @Debug.
+@Debug a pour but de tracer l'appel d'une méthode :
+
+* l'instance
+* le nom de la méthode
+* les paramètres en entrée
+* le résultat
+C'est un code écrit pour le plaisir. Il demande à être améliorer.
+
+Voici l'appel :
+
+```typescript
+    @Debug()
+    public controlThePair(card: ICard): void {
+        ...
+    }
+```
+
+Le code de Debug est dans le fichier Debug.ts.
