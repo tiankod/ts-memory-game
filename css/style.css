@@ -5,7 +5,7 @@
   grid-column-gap: 10px;
 } 
 header { 
-  background: blue;
+  background: rgba(0, 0, 255, 0.493);
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   align-items: center;
@@ -21,19 +21,19 @@ header {
 .title2 {
   grid-column: 1;
   grid-row: 2;
-  background-color:red; 
+  background-color:rgba(255, 0, 0, 0.692); 
 }
 .title3 {
   grid-column: 3;
   grid-row: 2;
-  background-color:darkblue; 
+  background-color:rgb(69, 69, 114); 
 }
 .deck { 
   grid-column: 1;
   grid-row: 3;
   min-height: 80vh; 
   grid-auto-rows: 25vh;
-  background: rgb(5, 39, 85);
+  background: rgb(22, 39, 61);
   grid-column-start: 1; 
   grid-row-start: 2; 
   grid-row-end: 5; 
@@ -45,7 +45,7 @@ header {
   grid-row-start: 2; 
 }
 .tableGame { 
-  background: rgb(42, 133, 39);
+  background: rgb(136, 195, 134);
   grid-column-start: 2; 
   grid-column-end: 6; 
   grid-row-start: 2; 
