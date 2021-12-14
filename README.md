@@ -29,8 +29,8 @@ A project to study Typescript for dev java
 
 ## version
 
-* v1.0.0 a solution with dependant classes in the same source
-* v2.0.0 add jest Unit Test and Module
+* v2.0.0 a solution with dependant classes in the same source
+* v3.0.0 add jest Unit Test and Module
 
 ## Note
 

@@ -5,8 +5,8 @@ import Debug from "./Debug";
 
 export class Card implements ICard{
     private static readonly BACK_IMAGE: string = "images/back.png";
-    public div: HTMLDivElement;
-    public image: HTMLImageElement;
+    public div?: HTMLDivElement;
+    public image?: HTMLImageElement;
     public value: number;
     private cardGame: IMemoryGame;
     private color: CardColor;
